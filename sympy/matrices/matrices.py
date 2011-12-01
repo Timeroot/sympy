@@ -1020,7 +1020,7 @@ class Matrix(object):
         if isinstance(key, slice):
             res = key.indices(defmax)[:2]
             if not ( 0 <= res[0] <= res[1] ):
-                raise IndexError("Slice indices out of range: a[%s]"%repr(key))
+                raise IndexError("Slice indices out of range: %s -> %s"%repr(key)%repr(res))
             return res;
         elif isinstance(key, int):
             if not ( -defmax <= key < defmax ):
