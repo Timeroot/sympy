@@ -1901,3 +1901,11 @@ def test_zero_dimension_multiply():
     assert (Matrix()*zeros(0, 3)).shape == (0, 3)
     assert zeros(3, 0)*zeros(0, 3) == zeros(3, 3)
     assert zeros(0, 3)*zeros(3, 0) == Matrix()
+
+def test_slice_bounds()
+    m = Matrix(3, 3, [0,1,2,3,4,5,6,7,8])
+    assert m[1:3,1:3] == Matrix(2, 2, [4,5,7,8])
+    assert m[1,1:3] == Matrix(1, 2, [4,5])
+    assert m[-3,:] == Matrix(1, 3, [0,1,2])
+    raises(IndexError, 'Matrix(3, 3, [0,1,2,3,4,5,6,7,8])[3,:]')
+    raises(IndexError, 'Matrix(3, 3, [0,1,2,3,4,5,6,7,8])[-4,:]')
