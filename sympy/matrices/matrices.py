@@ -965,8 +965,6 @@ class Matrix(object):
 
         rlo, rhi = self.slice2bounds(keys[0], self.rows)
         clo, chi = self.slice2bounds(keys[1], self.cols)
-        if not ( 0<=rlo<=rhi and 0<=clo<=chi ):
-            raise IndexError("Slice indices out of range: a[%s]"%repr(keys))
         outLines, outCols = rhi-rlo, chi-clo
         outMat = [0]*outLines*outCols
         for i in xrange(outLines):
@@ -1020,8 +1018,13 @@ class Matrix(object):
             Takes a default maxval to deal with the slice ':' which is (none, none)
         """
         if isinstance(key, slice):
-            return key.indices(defmax)[:2]
+            res = key.indices(defmax)[:2]
+            if not ( 0 <= res[0] <= res[1] ):
+                raise IndexError("Slice indices out of range: a[%s]"%repr(key))
+            return res;
         elif isinstance(key, int):
+            if not ( -defmax <= key < defmax ):
+                raise IndexError("Integer index out of range: a[%s]"%repr(key))
             if key == -1:
                 key = defmax - 1
             return slice(key, key + 1).indices(defmax)[:2]
